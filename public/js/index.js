@@ -67,31 +67,65 @@ $(document).ready(function () {
     });
 
     $('#area').on('change', function () {
-        $('#city').find('option:not(:first)')
-            .remove()
-            .end()
-            .prop('disabled', true);
-        var select = $('.my_select_box').val();
-        console.log(select);
-        $.ajax({
-            type: "POST",
-            url: "libs/function.php",
-            dataType: "json",
-            data: {
-                area: select
-            },
-            error: function (data) {
-                alert("При выполнении запроса произошла ошибка :(");
-            },
-            success: function (data) {
-                $('#city').append(data);
-                $('#city').prop('disabled', false);
-                $('.my_select_box').trigger('chosen:updated');
-            }
-        });
+        if ($('select#area').val() == 8000000000 || $('select#area').val() == 8500000000) {
+            $('#district, #city, #distArea').find('option:not(:first)')
+                .remove()
+                .end()
+                .prop('disabled', true);
+            var select = $('.my_select_box').val();
+            console.log(select);
+            $.ajax({
+                type: "POST",
+                url: "ajax/district",
+                dataType: "json",
+                data: {
+                    data: select
+                },
+                error: function () {
+                    alert("При выполнении запроса произошла ошибка :(");
+                },
+                success: function (data) {
+                    $('#district').append(data);
+                    $('#district').prop('disabled', false);
+                    $('.my_select_box').trigger('chosen:updated');
+                }
+            });
 
+        } else {
+            $('#city, #distArea, #district').find('option:not(:first)')
+                .remove()
+                .end()
+                .prop('disabled', true);
+            var select = $('.my_select_box').val();
+            $.ajax({
+                type: "POST",
+                url: "ajax/city",
+                dataType: "json",
+                data: {
+                    data: select
+                },
+                error: function () {
+                    alert("При выполнении запроса произошла ошибка :(");
+                },
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].ter_type_id == 2) {
+                            $('#distArea').append('<option value="' + data[i].ter_id + '">' + data[i].ter_name + '</option>');
+                        } else if (data[i].ter_type_id == 1) {
+
+                            $('#city').append('<option value="' + data[i].ter_id + '">' + data[i].ter_name + '</option>');
+                        }
+                    }
+                    $('#distArea').prop('disabled', false);
+                    $('.my_select_box').trigger('chosen:updated');
+                    $('#city').prop('disabled', false);
+                    $('.my_select_box').trigger('chosen:updated');
+                }
+            });
+        }
     });
-    $("#city").on('change', function () {
+
+    $('#city').on('change', function () {
         $('#district').find('option:not(:first)')
             .remove()
             .end()
@@ -99,22 +133,18 @@ $(document).ready(function () {
         var select = $('#city').val();
         $.ajax({
             type: "POST",
-            url: "libs/function.php",
+            url: "ajax/district",
             dataType: "json",
             data: {
-                city: select
+                data: select
             },
             error: function () {
                 alert("При выполнении запроса произошла ошибка :(");
             },
             success: function (data) {
-                if (data == null) {
-                    return;
-                } else {
-                    $('#district').append(data);
-                    $('#district').prop('disabled', false);
-                    $('.my_select_box').trigger('chosen:updated');
-                }
+                $('#district').append(data);
+                $('#district').prop('disabled', false);
+                $('.my_select_box').trigger('chosen:updated');
             }
         });
     });

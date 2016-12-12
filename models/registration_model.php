@@ -8,24 +8,41 @@ class Registration_model extends Model
     {
         parent::__construct();
         $this->mas = $_POST;
-
+        var_dump($this->mas);
     }
 
     function registr()
     {
         $name = trim($this->mas['name']);
-        $email = $this->mas['email'];
+        $name = strip_tags($this->mas['name']);
+        $email = trim($this->mas['email']);
+        $email = strip_tags($this->mas['email']);
         $select = "SELECT * FROM `registry_people` WHERE `email` in('$email')";
         $res = $this->db->query($select);
         $row = $res->fetch();
         if ($row == false) {
-            $select = "SELECT `ter_name` FROM `t_koatuu_tree` WHERE `ter_id`='{$this->mas['city']}'";
-            $res = $this->db->query($select);
+            $select = "SELECT `ter_name` FROM `t_koatuu_tree` WHERE `ter_id`=?";
+            $res = $this->db->prepare($select);
+            $ci = $this->mas['city'];
+            $res->execute(array($ci));
             $row = $res->fetch();
             $city = $row['ter_name'];
-            $territory = "{$this->mas['area']}, " . "$city, " . "{$this->mas['district']}";
-            $insert = "INSERT INTO `registry_people`(`name`, `email`, `territory`) VALUES ('$name', '$email', '$territory')";
-            $res = $this->db->exec($insert);
+            $sel2 = "SELECT `ter_name` FROM `t_koatuu_tree` WHERE `ter_id`=?";
+            $res = $this->db->prepare($sel2);
+            $ar = $this->mas['area'];
+            $res->execute(array($ar));
+            $row = $res->fetch();
+            $area = $row['ter_name'];
+            $sel3 = "SELECT `ter_name` FROM `t_koatuu_tree` WHERE `ter_id`=?";
+            $res = $this->db->prepare($sel3);
+            $dis = $this->mas['district'];
+            $res->execute(array($dis));
+            $row = $res->fetch();
+            $district = $row['ter_name'];
+            $territory = "$area, " . "$city, " . "$district";
+            $insert = "INSERT INTO `registry_people`(`name`, `email`, `territory`) VALUES (?, ?, ?)";
+            $res = $this->db->prepare($insert);
+            $res->execute(array($name, $email, $territory));
             if ($res === false) {
                 echo "Ошибка записи в бд";
             } else

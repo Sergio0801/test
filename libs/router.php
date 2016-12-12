@@ -21,13 +21,14 @@ class Router
             require 'controllers/error.php';
             $controller = new Error();
             return false;
-
         }
-
         if (isset ($url[0])) {
             $controller = new $url[0];
             $controller->loadModel($url[0]);
-            $controller->index();
+            if (method_exists($controller, $url[1])) {
+                $data = $controller->$url[1]();
+            }
+            $controller->index($data);
         }
     }
 }

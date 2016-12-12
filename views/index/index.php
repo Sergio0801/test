@@ -23,6 +23,13 @@
             </td>
         </tr>
         <tr>
+            <td>Список районов области</td>
+            <td><select id="distArea" class="my_select_box" data-placeholder="Выберите из списка" name="distArea" disabled required>
+                    <option selected disabled>Выберите из списка</option>
+                </select></td>
+        </tr>
+        <tr>
+        <tr>
             <td>Список городов</td>
             <td><select id="city" class="my_select_box" data-placeholder="Выберите из списка" name="city" disabled
                         required>
@@ -30,7 +37,7 @@
                 </select></td>
         </tr>
         <tr>
-            <td>Список районов</td>
+            <td>Список районов города</td>
             <td><select id="district" class="my_select_box" data-placeholder="Выберите из списка" name="district"
                         disabled required>
                     <option selected disabled>Выберите из списка</option>
