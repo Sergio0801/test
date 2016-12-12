@@ -1,6 +1,6 @@
 <?php
 
-class Ajax_model extends Model
+class AjaxModel extends Model
 {
     public $data;
 
@@ -10,7 +10,7 @@ class Ajax_model extends Model
         $this->data = strip_tags($_POST['data']);
     }
 
-    public function city()
+    public function getCity()
     {
         $select = "SELECT `ter_name`, `ter_id`, `ter_type_id` FROM `t_koatuu_tree` WHERE (`ter_type_id`=1 or `ter_type_id`=2) AND `reg_id`=(SELECT `reg_id` FROM `t_koatuu_tree` WHERE `ter_id`=?)";
         $sth = $this->db->prepare($select);
@@ -19,7 +19,7 @@ class Ajax_model extends Model
         return $mas;
     }
 
-    public function district()
+    public function getDistrict()
     {
         $select = "SELECT `ter_name`, `ter_id` FROM `t_koatuu_tree` WHERE `ter_type_id`=3 and `ter_pid` = ?";
         $sth = $this->db->prepare($select);

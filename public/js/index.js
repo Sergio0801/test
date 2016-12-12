@@ -76,7 +76,7 @@ $(document).ready(function () {
             console.log(select);
             $.ajax({
                 type: "POST",
-                url: "ajax/district",
+                url: "ajax/getDistrict",
                 dataType: "json",
                 data: {
                     data: select
@@ -99,7 +99,7 @@ $(document).ready(function () {
             var select = $('.my_select_box').val();
             $.ajax({
                 type: "POST",
-                url: "ajax/city",
+                url: "ajax/getCity",
                 dataType: "json",
                 data: {
                     data: select
@@ -133,7 +133,7 @@ $(document).ready(function () {
         var select = $('#city').val();
         $.ajax({
             type: "POST",
-            url: "ajax/district",
+            url: "ajax/getDistrict",
             dataType: "json",
             data: {
                 data: select

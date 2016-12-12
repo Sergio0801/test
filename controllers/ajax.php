@@ -11,14 +11,14 @@ class Ajax extends Controller
         $da = json_encode($data);
         echo $da;
     }
-    public function city()
+    public function getCity()
     {
-         $data = $this->model->city();
+         $data = $this->model->getCity();
          return $data;
     }
-    public function district()
+    public function getDistrict()
     {
-         $data = $this->model->district();
+         $data = $this->model->getDistrict();
          return $data;
     }
 }

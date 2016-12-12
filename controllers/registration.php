@@ -9,7 +9,7 @@ class Registration extends Controller
 
     function index()
     {
-        $data = $this->model->registr();
+        $data = $this->model->signUp();
         $this->view->render('registration/index', $data);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Registration_model extends Model
+class RegistrationModel extends Model
 {
     public $mas = array();
 
@@ -11,7 +11,7 @@ class Registration_model extends Model
         var_dump($this->mas);
     }
 
-    function registr()
+    function signUp()
     {
         $name = trim($this->mas['name']);
         $name = strip_tags($this->mas['name']);
